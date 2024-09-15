@@ -26,10 +26,22 @@
     "@typescript-eslint/no-unused-vars": [
       "error",
       { "argsIgnorePattern": "^_" }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/vitest.config.ts",
+          "**/*.test.ts",
+          "**/*.spec.ts",
+          "**/*.config.js"
+        ]
+      }
     ]
   },
   "env": {
     "node": true,
-    "es2021": true
+    "es2021": true,
+    "vitest/globals": true
   }
 }
