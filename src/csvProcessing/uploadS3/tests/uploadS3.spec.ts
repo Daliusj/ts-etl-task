@@ -1,8 +1,7 @@
-import { vi, describe, expect, beforeEach, it } from 'vitest'
+import { describe, expect, beforeEach, it } from 'vitest'
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { mockClient } from 'aws-sdk-client-mock'
-import * as fs from 'node:fs'
-import uploadS3 from '../index'
+import uploadS3 from '../index.ts'
 
 const s3Mock = mockClient(S3Client)
 

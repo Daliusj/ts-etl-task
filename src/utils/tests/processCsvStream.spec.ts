@@ -1,8 +1,8 @@
 import { writeFile } from 'fs/promises'
 import { createReadStream, createWriteStream } from 'node:fs'
 import * as fs from 'fs/promises'
-import processCsvStreams from '../processCsvStreams'
-import { deleteFiles, formCsvContent, processRow } from './testUtils'
+import processCsvStreams from '../processCsvStreams.ts'
+import { deleteFiles, formCsvContent, processRow } from './testUtils.ts'
 import { afterEach, it, expect } from 'vitest'
 /* eslint-disable no-underscore-dangle */
 

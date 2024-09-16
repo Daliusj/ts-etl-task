@@ -1,5 +1,5 @@
 import { createReadStream, createWriteStream } from 'fs'
-import processCsvStreams from './processCsvStreams'
+import processCsvStreams from './processCsvStreams.ts'
 import moment from 'moment'
 
 export default function createCsvProcessor<T>(

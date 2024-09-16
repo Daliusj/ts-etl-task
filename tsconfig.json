@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "target": "ES6",
-    "module": "CommonJS",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "lib": ["es2020", "dom"],
     "declaration": true,
     "strict": true,
@@ -18,7 +19,14 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
     "typeRoots": ["./node_modules/@types"],
-    "outDir": "dist"
+    "outDir": "./dist",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   }
 }

@@ -1,10 +1,10 @@
-import config from '../../config'
+import config from '@/config.ts'
 import {
   validateTracksCsv,
-  transformTrackCsv,
   validateArtistsCsv,
-} from './processCsv'
-import uploadS3 from './uploadS3'
+  transformTrackCsv,
+} from './processCsv/index.ts'
+import uploadS3 from './uploadS3/index.ts'
 
 export default async function runProcessingStack() {
   try {
@@ -24,7 +24,7 @@ export default async function runProcessingStack() {
       tracksValidationResult.body.filePath
     ) {
       const tracksTransformResult = await transformTrackCsv(
-        config.inputFilePath,
+        config.outputFileDir,
         config.outputFileDir,
         tracksValidationResult.body.fileName,
       )

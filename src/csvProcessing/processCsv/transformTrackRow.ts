@@ -1,4 +1,4 @@
-import { Track, TransformedTrack } from '../../schemas/trackValidationSchema'
+import { Track, TransformedTrack } from '@/src/schemas/trackValidationSchema.ts'
 
 export default function transformRow() {
   return (data: Track): TransformedTrack | null => {

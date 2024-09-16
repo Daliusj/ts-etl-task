@@ -10,18 +10,11 @@ const schema = z
     env: z.enum(['development', 'production', 'test']).default('development'),
 
     database: z.object({
-      userName: z.string().min(1),
-      password: z.string().min(1),
-      endpoint: z.string().min(1),
-      dbName: z.string(),
-      port: z.coerce.number(),
+      connectionString: z.string().url(),
     }),
 
     testDatabase: z.object({
-      userName: z.string().min(1),
-      password: z.string().min(1),
-      endpoint: z.string().min(1),
-      dbName: z.string().min(1),
+      connectionString: z.string().url(),
     }),
 
     s3BucketName: z.string().min(1),
@@ -39,18 +32,11 @@ const config = schema.parse({
   env: env.NODE_ENV,
 
   database: {
-    userName: env.RDS_DB_USER,
-    password: env.RDS_DB_PASSWORD,
-    endpoint: env.RDS_DB_ENDPOINT,
-    dbName: env.RDS_DB_NAME,
-    port: env.RDS_DB_PORT,
+    connectionString: env.DATABASE,
   },
 
   testDatabase: {
-    userName: env.TEST_DB_USER,
-    password: env.TEST_DB_PASSWORD,
-    endpoint: env.TEST_DB_ENDPOINT,
-    dbName: env.TEST_DB_NAME,
+    connectionString: env.TEST_DATABASE,
   },
 
   s3BucketName: env.S3_BUCKET_NAME,

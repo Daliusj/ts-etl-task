@@ -1,7 +1,7 @@
+import config from '@/config.ts'
 import { S3Client } from '@aws-sdk/client-s3'
 import { Upload } from '@aws-sdk/lib-storage'
 import * as fs from 'fs'
-import config from '../../../config'
 
 const s3 = new S3Client({ region: config.region })
 

@@ -1,14 +1,14 @@
 import * as fs from 'node:fs'
 import { promises as fsPromises } from 'fs'
-import { deleteFiles } from '../../../utils/tests/testUtils'
+import { afterEach, it, expect, describe, beforeEach } from 'vitest'
+import moment from 'moment'
+import { deleteFiles } from '@/src/utils/tests/testUtils.ts'
 import {
   validateTracksCsv,
-  transformTrackCsv,
   validateArtistsCsv,
-} from '../index'
-import { afterEach, it, expect, describe, beforeEach } from 'vitest'
-import config from '../../../../config'
-import moment from 'moment'
+  transformTrackCsv,
+} from '../index.ts'
+import config from '@/config.ts'
 
 const mockCsvDir = `${__dirname}/../../../../src/utils/tests/fakes/`
 const mockTracksName = `fakeTracks.csv`
