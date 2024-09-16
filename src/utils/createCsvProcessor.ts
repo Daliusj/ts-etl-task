@@ -1,5 +1,6 @@
 import { createReadStream, createWriteStream } from 'fs'
 import processCsvStreams from './processCsvStreams'
+import moment from 'moment'
 
 export default function createCsvProcessor<T>(
   processRow: (...args: T[]) => T | null,
@@ -7,7 +8,8 @@ export default function createCsvProcessor<T>(
 ) {
   return async (inputDir: string, outputDir: string, fileName: string) => {
     try {
-      const outputFileName = `${outputFilePrefix}-${fileName}`
+      const timestamp = moment().format('YYYYMMDD_HHmmss')
+      const outputFileName = `${outputFilePrefix}_${timestamp}_${fileName}`
       const outputFilePath = `${outputDir}${outputFileName}`
 
       const inputStream = createReadStream(`${inputDir}${fileName}`)
@@ -24,16 +26,9 @@ export default function createCsvProcessor<T>(
         },
       }
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error occurred'
-
-      return {
-        success: false,
-        body: {
-          message: 'Processing failed',
-          error: errorMessage,
-        },
-      }
+      throw new Error(
+        `Csv proccessingerror : ${error instanceof Error ? error.message : 'Unknown error occurred'}`,
+      )
     }
   }
 }

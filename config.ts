@@ -24,7 +24,7 @@ const schema = z
       dbName: z.string().min(1),
     }),
 
-    s3Bucket: z.string().min(1),
+    s3BucketName: z.string().min(1),
     region: z.string(),
     inputFilePath: z.string().min(1),
     outputFileDir: z.string().min(1),
@@ -53,7 +53,7 @@ const config = schema.parse({
     dbName: env.TEST_DB_NAME,
   },
 
-  s3Bucket: env.S3_BUCKET_NAME,
+  s3BucketName: env.S3_BUCKET_NAME,
   region: env.AWS_REGION,
   inputFilePath: env.INPUT_FILE_DIR,
   outputFileDir: env.OUTPUT_FILE_DIR,

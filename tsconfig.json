@@ -19,7 +19,6 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "typeRoots": ["./node_modules/@types"],
-    "outDir": "dist",
-    "types": ["vitest/globals"]
+    "outDir": "dist"
   }
 }

@@ -6,7 +6,7 @@ import { pipeline } from 'node:stream/promises'
 export type ProcessRow<T, U extends object = {}> = (data: T) => T | U | null
 
 export const csvToObjects = <T>(header: string, rows: string[]): T[] => {
-  const headers = header.split(',')
+  const headers = header.split(',').map((header) => header.trim())
   const data = rows.map((row) => row.split(','))
   return data.map((row) => {
     const obj = {} as T

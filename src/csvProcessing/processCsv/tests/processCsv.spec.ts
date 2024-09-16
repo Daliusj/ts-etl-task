@@ -6,32 +6,49 @@ import {
   transformTrackCsv,
   validateArtistsCsv,
 } from '../index'
+import { afterEach, it, expect, describe, beforeEach } from 'vitest'
+import config from '../../../../config'
+import moment from 'moment'
 
-const mockTracksCsvDir = `${__dirname}/../../../../src/utils/tests/fakes/`
+const mockCsvDir = `${__dirname}/../../../../src/utils/tests/fakes/`
 const mockTracksName = `fakeTracks.csv`
-const mockArtistsCsvPath = `${__dirname}/../../../../src/utils/tests/fakes/fakeArtists.csv`
+const mockValidatedTracksName = `fakeTracksValidated.csv`
 const mockValidatedTracksCsvPath = `${__dirname}/../../../../src/utils/tests/fakes/fakeTracksValidated.csv`
 const mockTransformedTracksCsvPath = `${__dirname}/../../../../src/utils/tests/fakes/fakeTracksTransformed.csv`
+const mockArtistsName = `fakeArtists.csv`
+const mockValidatedArtistsCsvPath = `${__dirname}/../../../../src/utils/tests/fakes/fakeArtistsValidated.csv`
 const outputDir = `${__dirname}/`
 
 describe('validateTracksCsv', () => {
-  afterEach(async () => deleteFiles(`${outputDir}processed-fakeTracks.csv`)())
+  let timestamp: string
+
+  beforeEach(() => {
+    timestamp = moment().format('YYYYMMDD_HHmmss')
+  })
+
+  afterEach(
+    async () =>
+      await deleteFiles(
+        `${outputDir}${config.validatedFilePrefix}_${timestamp}_${mockTracksName}`,
+      )(),
+  )
 
   it('should return validated tracks CSV', async () => {
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir)
     }
     const response = await validateTracksCsv(
-      mockTracksCsvDir,
+      mockCsvDir,
       outputDir,
       mockTracksName,
     )
-
     expect(response.success).toBeTruthy()
 
-    const fileContent = await fsPromises.readFile(
-      `${outputDir}processed-fakeTracks.csv`,
-    )
+    const fileContent = (
+      await fsPromises.readFile(
+        `${outputDir}${config.validatedFilePrefix}_${timestamp}_${mockTracksName}`,
+      )
+    ).toString()
 
     const expectedContent = await fsPromises.readFile(
       mockValidatedTracksCsvPath,
@@ -42,22 +59,37 @@ describe('validateTracksCsv', () => {
 })
 
 describe('validateArtistsCsv', () => {
-  afterEach(async () => deleteFiles(`${outputDir}processed-fakeArtists.csv`)())
+  let timestamp: string
 
-  it('should return validated tracks CSV', async () => {
+  beforeEach(() => {
+    timestamp = moment().format('YYYYMMDD_HHmmss')
+  })
+  afterEach(
+    async () =>
+      await deleteFiles(
+        `${outputDir}${config.validatedFilePrefix}_${timestamp}_${mockArtistsName}`,
+      )(),
+  )
+
+  it('should return validated artists CSV', async () => {
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir)
     }
-    const response = await validateArtistsCsv(mockTracksCsvDir, outputDir)
-
-    expect(response.statusCode).toBe(200)
-
-    const fileContent = await fsPromises.readFile(
-      `${outputDir}processed-fakeTracks.csv`,
+    const response = await validateArtistsCsv(
+      mockCsvDir,
+      outputDir,
+      mockArtistsName,
     )
+    expect(response.success).toBeTruthy()
+
+    const fileContent = (
+      await fsPromises.readFile(
+        `${outputDir}${config.validatedFilePrefix}_${timestamp}_${mockArtistsName}`,
+      )
+    ).toString()
 
     const expectedContent = await fsPromises.readFile(
-      mockValidatedTracksCsvPath,
+      mockValidatedArtistsCsvPath,
       'utf-8',
     )
     expect(fileContent).toEqual(expectedContent)
@@ -65,22 +97,34 @@ describe('validateArtistsCsv', () => {
 })
 
 describe('transformTrackCsv', () => {
-  afterEach(async () => deleteFiles(`${outputDir}processed-fakeTracks.csv`)())
+  let timestamp: string
+
+  beforeEach(() => {
+    timestamp = moment().format('YYYYMMDD_HHmmss')
+  })
+  afterEach(
+    async () =>
+      await deleteFiles(
+        `${outputDir}${config.transformedFilePrefix}_${timestamp}_${mockValidatedTracksName}`,
+      )(),
+  )
 
   it('should return transformed tracks CSV', async () => {
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir)
     }
     const response = await transformTrackCsv(
-      mockValidatedTracksCsvPath,
+      mockCsvDir,
       outputDir,
+      mockValidatedTracksName,
     )
+    expect(response.success).toBeTruthy()
 
-    expect(response.statusCode).toBe(200)
-
-    const fileContent = await fsPromises.readFile(
-      `${outputDir}processed-fakeTracks.csv`,
-    )
+    const fileContent = (
+      await fsPromises.readFile(
+        `${outputDir}${config.transformedFilePrefix}_${timestamp}_${mockValidatedTracksName}`,
+      )
+    ).toString()
 
     const expectedContent = await fsPromises.readFile(
       mockTransformedTracksCsvPath,
