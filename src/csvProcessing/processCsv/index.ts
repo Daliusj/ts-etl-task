@@ -2,7 +2,7 @@ import { Artist, artistSchema } from '@/src/schemas/artistValidationSchema.ts'
 import { Track, trackSchema } from '@/src/schemas/trackValidationSchema.ts'
 import transformTrackRow from './transformTrackRow.ts'
 import createRowValidator from './validateRow.ts'
-import config from '@/config.ts'
+import config from '@/src/config.ts'
 import createCsvProcessor from '@/src/utils/createCsvProcessor.ts'
 
 export const validateTracksCsv = createCsvProcessor(

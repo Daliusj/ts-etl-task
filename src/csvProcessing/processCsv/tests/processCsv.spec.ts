@@ -8,7 +8,7 @@ import {
   validateArtistsCsv,
   transformTrackCsv,
 } from '../index.ts'
-import config from '@/config.ts'
+import config from '@/src/config.ts'
 
 const mockCsvDir = `${__dirname}/../../../../src/utils/tests/fakes/`
 const mockTracksName = `fakeTracks.csv`

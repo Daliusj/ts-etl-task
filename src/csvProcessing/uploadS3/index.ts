@@ -1,4 +1,4 @@
-import config from '@/config.ts'
+import config from '@/src/config.ts'
 import { S3Client } from '@aws-sdk/client-s3'
 import { Upload } from '@aws-sdk/lib-storage'
 import * as fs from 'fs'

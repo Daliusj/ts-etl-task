@@ -10,7 +10,7 @@ import {
   type MigrationProvider,
 } from 'kysely'
 import { createDatabase } from '../index.js'
-import config from '@/config.ts'
+import config from '@/src/config.ts'
 
 const MIGRATIONS_PATH = '../migrations'
 
