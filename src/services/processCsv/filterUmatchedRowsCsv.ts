@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import parseCsvRow from '@/src/utils/parseCsvRow.ts'
 
-export default async function filterCsv(
+export default async function filterUmatchedRowsCsv(
   file1Path: string,
   file2Path: string,
   file1Key: string,

@@ -10,7 +10,7 @@ import {
   TransformedTrack,
 } from '@/src/schemas/trackSchema.ts'
 import { TrackArtistsRelationsCamel } from '@/src/schemas/trackArtistSchema.ts'
-import transformToTrackArtistsRelation from './transformToTrackArtistsRelations.ts'
+import createJoinTableCsvRow from './createJoinTableRow.ts'
 
 export const validateTracksCsv = createCsvProcessor<Track, Track>(
   createRowValidator<Track>(trackSchema),
@@ -22,10 +22,10 @@ export const validateArtistsCsv = createCsvProcessor<Artist, Artist>(
   config.validatedFilePrefix,
 )
 
-export const createTrackArtistsCsv = createCsvProcessor<
+export const createJoinTableCsv = createCsvProcessor<
   Track,
   TrackArtistsRelationsCamel
->(transformToTrackArtistsRelation(), config.validatedFilePrefix)
+>(createJoinTableCsvRow(), config.validatedFilePrefix)
 
 export const transformTrackCsv = createCsvProcessor<Track, TransformedTrack>(
   transformTrackRow(),

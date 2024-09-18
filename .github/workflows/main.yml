@@ -48,5 +48,5 @@ jobs:
       - name: Run database migrations
         run: npm run migrate:latest
 
-      - name: Test server
+      - name: Test
         run: npm run test
