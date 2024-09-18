@@ -1,13 +1,17 @@
 import { describe, expect, beforeEach, it } from 'vitest'
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { mockClient } from 'aws-sdk-client-mock'
+import path from 'path'
 import uploadS3 from '../index.ts'
 
 const s3Mock = mockClient(S3Client)
 
 describe('uploadS3', () => {
   const bucketName = 'test-bucket'
-  const filePath = `/home/dalius/Projects/telesoftas/ts-etl-task/src/utils/tests/fakes/fake_transformed_tracks.csv`
+  const filePath = path.join(
+    __dirname,
+    '../../tests/fakes/fake_transformed_tracks.csv',
+  )
   const key = 'test-file.csv'
 
   beforeEach(() => {

@@ -4,6 +4,7 @@ import { mockClient } from 'aws-sdk-client-mock'
 import { sdkStreamMixin } from '@smithy/util-stream'
 import { createReadStream } from 'node:fs'
 import { sql } from 'kysely'
+import * as path from 'path'
 import { createTestDatabase } from '@/src/tests/database.ts'
 import { artistKeys } from '@/src/schemas/artistSchema.ts'
 import { trackKeys } from '@/src/schemas/trackSchema.ts'
@@ -25,17 +26,23 @@ const joinTableRepo = repository(
 
 const fakeBucketName = 'bucket-name'
 
-export const trackPath =
-  '/home/dalius/Projects/telesoftas/ts-etl-task/src/utils/tests/fakes/fake_transformed_tracks.csv'
-export const tracksName = `fake_transformed_tracks.csv`
+export const trackPath = path.join(
+  __dirname,
+  '../../tests/fakes/fake_transformed_tracks.csv',
+)
+export const tracksName = 'fake_transformed_tracks.csv'
 
-export const artistsPath =
-  '/home/dalius/Projects/telesoftas/ts-etl-task/src/utils/tests/fakes/fake_filtered_artists.csv'
-export const artistsName = `fake_filtered_artists.csv`
+export const artistsPath = path.join(
+  __dirname,
+  '../../tests/fakes/fake_filtered_artists.csv',
+)
+export const artistsName = 'fake_filtered_artists.csv'
 
-export const joinPath =
-  '/home/dalius/Projects/telesoftas/ts-etl-task/src/utils/tests/fakes/fake_filtered_join.csv'
-export const joinName = `fake_filtered_join.csv`
+export const joinPath = path.join(
+  __dirname,
+  '../../tests/fakes/fake_filtered_join.csv',
+)
+export const joinName = 'fake_filtered_join.csv'
 
 describe('uploadToDb', () => {
   beforeEach(() => s3Mock.reset())
