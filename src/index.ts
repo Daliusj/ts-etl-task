@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import config from './config.ts'
 import { createDatabase } from './database/index.ts'
 import loadS3ToDb from './services/loadDb/index.ts'

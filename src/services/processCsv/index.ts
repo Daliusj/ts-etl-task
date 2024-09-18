@@ -9,7 +9,7 @@ import {
   trackSchema,
   TransformedTrack,
 } from '@/src/schemas/trackSchema.ts'
-import { TrackArtistsRelations } from '@/src/schemas/trackArtistSchema.ts'
+import { TrackArtistsRelationsCamel } from '@/src/schemas/trackArtistSchema.ts'
 import transformToTrackArtistsRelation from './transformToTrackArtistsRelations.ts'
 
 export const validateTracksCsv = createCsvProcessor<Track, Track>(
@@ -24,7 +24,7 @@ export const validateArtistsCsv = createCsvProcessor<Artist, Artist>(
 
 export const createTrackArtistsCsv = createCsvProcessor<
   Track,
-  TrackArtistsRelations
+  TrackArtistsRelationsCamel
 >(transformToTrackArtistsRelation(), config.validatedFilePrefix)
 
 export const transformTrackCsv = createCsvProcessor<Track, TransformedTrack>(

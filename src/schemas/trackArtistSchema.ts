@@ -1,14 +1,22 @@
 import { z } from 'zod'
 
-export const trackArtistsRelationsSchema = z.object({
+export const trackArtistsRelationsSchemaSnake = z.object({
   track_id: z.string().min(1),
   artist_id: z.string().min(1),
 })
 
-export type TrackArtistsRelations = {
-  [K in keyof z.infer<typeof trackArtistsRelationsSchema>]: string
+export const trackArtistsRelationsSchemaCamel = z.object({
+  trackId: z.string().min(1),
+  artistId: z.string().min(1),
+})
+
+export type TrackArtistsRelationsSnake = {
+  [K in keyof z.infer<typeof trackArtistsRelationsSchemaSnake>]: string
+}
+export type TrackArtistsRelationsCamel = {
+  [K in keyof z.infer<typeof trackArtistsRelationsSchemaCamel>]: string
 }
 
 export const trackArtistsRelationsKeys = Object.keys(
-  trackArtistsRelationsSchema.shape,
-) as (keyof TrackArtistsRelations)[]
+  trackArtistsRelationsSchemaSnake.shape,
+) as (keyof TrackArtistsRelationsSnake)[]

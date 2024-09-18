@@ -19,20 +19,15 @@ export function repository(
 
     async copyStreamToTempTable(stream: Readable) {
       const client = await pool.connect()
-      console.log('column keys', `${columnKeys.join(', ')}`)
       try {
         const copyCommand = `COPY temp_${tableName} (${columnKeys.join(', ')}) FROM STDIN WITH CSV HEADER`
-        console.log('Executing copy command:', copyCommand)
         const copyStream = client.query(copyFrom(copyCommand))
-        console.log('Piping stream to copyStream...')
         stream.pipe(copyStream)
         await new Promise<void>((resolve, reject) => {
           copyStream.on('finish', () => {
-            console.log('Copy stream finished successfully.')
             resolve()
           })
           copyStream.on('error', (error) => {
-            console.error('Error in copy stream:', error)
             reject(error)
           })
         })

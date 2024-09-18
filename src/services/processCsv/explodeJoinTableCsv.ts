@@ -3,7 +3,7 @@ import { createWriteStream, createReadStream } from 'fs'
 import { parse } from 'csv-parse'
 import { stringify } from 'csv-stringify'
 import { join } from 'path'
-import { TrackArtistsRelations } from '@/src/schemas/trackArtistSchema.ts'
+import { TrackArtistsRelationsCamel } from '@/src/schemas/trackArtistSchema.ts'
 
 export default async function explodeJoinTableCsv(
   filePath: string,
@@ -13,7 +13,7 @@ export default async function explodeJoinTableCsv(
   success: boolean
   body: { message: string; filePath: string; fileName: string }
 }> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const prefixedFileName = `xpl_${fileName}`
     const outputFilePath = join(outputFileDir, prefixedFileName)
     const outputStream = createWriteStream(outputFilePath)
@@ -26,7 +26,7 @@ export default async function explodeJoinTableCsv(
 
     inputStream
       .pipe(parser)
-      .on('data', (row: TrackArtistsRelations) => {
+      .on('data', (row: TrackArtistsRelationsCamel) => {
         const { trackId } = row
         let artistIds: string[] = []
 
