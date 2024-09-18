@@ -37,9 +37,7 @@ export async function up(db: Kysely<any>) {
 }
 
 export async function down(db: Kysely<any>) {
-  await db.schema.alterTable('artists').dropColumn('time_signature').execute()
-  await db.schema
-    .alterTable('artists')
-    .addColumn('followers', 'integer', (c) => c.notNull())
-    .execute()
+  await sql`DROP VIEW IF EXISTS most_energising_track_per_year`.execute(db)
+  await sql`DROP VIEW IF EXISTS tracks_with_follower`.execute(db)
+  await sql`DROP VIEW IF EXISTS track_details_with_artist_followers`.execute(db)
 }
