@@ -7,7 +7,7 @@ const s3Mock = mockClient(S3Client)
 
 describe('uploadS3', () => {
   const bucketName = 'test-bucket'
-  const filePath = `${__dirname}/../../../../src/utils/tests/fakes/fakeTracksTransformed.csv`
+  const filePath = `/home/dalius/Projects/telesoftas/ts-etl-task/src/utils/tests/fakes/fake_transformed_tracks.csv`
   const key = 'test-file.csv'
 
   beforeEach(() => {

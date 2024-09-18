@@ -31,3 +31,6 @@ export const transformTrackCsv = createCsvProcessor<Track, TransformedTrack>(
   transformTrackRow(),
   config.transformedFilePrefix,
 )
+
+export { default as explodeJoinTableCsv } from './explodeJoinTableCsv.ts'
+export { default as filterUmatchedRowsCsv } from './filterUmatchedRowsCsv.ts'

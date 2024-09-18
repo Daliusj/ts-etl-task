@@ -5,11 +5,11 @@ services:
     environment:
       POSTGRES_USER: etltask
       POSTGRES_PASSWORD: etltask
-      POSTGRES_DB: etltask-db
+      POSTGRES_DB: etltask-test-db
     ports:
       - '5432:5432'
     volumes:
-      - etltask-db:/var/lib/postgresql/data
+      - etltask-test-db:/var/lib/postgresql/data
 
 volumes:
-  etltask-db: {}
+  etltask-test-db: {}

@@ -1,4 +1,4 @@
-import explodeJoinTableCSV from './processCsv/explodeJoinTableCsv.ts'
+/* eslint-disable no-console */
 import config from '../config.ts'
 import { createDatabase } from '../database/index.ts'
 import { repository } from '../repository/index.ts'
@@ -6,12 +6,13 @@ import { artistKeys } from '../schemas/artistSchema.ts'
 import { trackArtistsRelationsKeys } from '../schemas/trackArtistSchema.ts'
 import { trackKeys } from '../schemas/trackSchema.ts'
 import loadS3ToDb from './loadDb/index.ts'
-import filterUmatchedRowsCsv from './processCsv/filterUmatchedRowsCsv.ts'
 import {
   validateTracksCsv,
   validateArtistsCsv,
   createJoinTableCsv,
   transformTrackCsv,
+  explodeJoinTableCsv,
+  filterUmatchedRowsCsv,
 } from './processCsv/index.ts'
 import uploadS3 from './uploadS3/index.ts'
 
@@ -19,13 +20,13 @@ export const validateCsv = async () => {
   try {
     console.log('validating...')
     const tracksValidationResult = await validateTracksCsv(
-      '/home/dalius/Desktop/spotify-etl/tracks.csv',
+      `${config.inputFileDir}${config.tracksFileName}`,
       config.outputFileDir,
       config.tracksFileName,
     )
 
     const artistsValidationResult = await validateArtistsCsv(
-      '/home/dalius/Desktop/spotify-etl/artists.csv',
+      `${config.inputFileDir}${config.artistsFileName}`,
       config.outputFileDir,
       config.artistsFileName,
     )
@@ -47,7 +48,7 @@ export const createJoinTable = async (validatedTracksPath: string) => {
       'join_track_artists.csv',
     )
 
-    const explodedJoinTableResults = await explodeJoinTableCSV(
+    const explodedJoinTableResults = await explodeJoinTableCsv(
       createJoinTableResults.body.filePath,
       config.outputFileDir,
       createJoinTableResults.body.fileName,
@@ -93,7 +94,7 @@ export const filterCsv = async (
       'artist_id',
       'id',
       config.outputFileDir,
-      'fltr',
+      config.filteredFilePrefix,
       validatedArtistsFileName,
     )
     const filteredJoinTableResult = await filterUmatchedRowsCsv(
@@ -102,7 +103,7 @@ export const filterCsv = async (
       'id',
       'artist_id',
       config.outputFileDir,
-      'fltr',
+      config.filteredFilePrefix,
       joinTableFileName,
     )
     return { filteredArtistsResult, filteredJoinTableResult }

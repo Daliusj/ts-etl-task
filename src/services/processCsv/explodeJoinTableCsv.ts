@@ -4,6 +4,7 @@ import { parse } from 'csv-parse'
 import { stringify } from 'csv-stringify'
 import { join } from 'path'
 import { TrackArtistsRelationsCamel } from '@/src/schemas/trackArtistSchema.ts'
+import config from '@/src/config.ts'
 
 export default async function explodeJoinTableCsv(
   filePath: string,
@@ -14,7 +15,7 @@ export default async function explodeJoinTableCsv(
   body: { message: string; filePath: string; fileName: string }
 }> {
   return new Promise((resolve) => {
-    const prefixedFileName = `xpl_${fileName}`
+    const prefixedFileName = `${config.exploadedFilePrefix}_${fileName}`
     const outputFilePath = join(outputFileDir, prefixedFileName)
     const outputStream = createWriteStream(outputFilePath)
     const inputStream = createReadStream(filePath)
