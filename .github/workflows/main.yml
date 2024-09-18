@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-22.04
     env:
       S3_BUCKET_NAME: spotify-etl-task
-      AWS_REGION=eu: eu-central-1
+      AWS_REGION: eu-central-1
       DATABASE_URL: postgresql://etltask:etltask@localhost:5432/etltask-db
       TEST_DATABASE: postgresql://etltask:etltask@localhost:5432/etltask-test-db
       INPUT_FILE_DIR: /input
