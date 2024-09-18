@@ -14,6 +14,19 @@ import config from '@/src/config.ts'
 
 const MIGRATIONS_PATH = '../migrations'
 
+// eslint-disable-next-line import/prefer-default-export
+export async function migrateToLatest(
+  provider: MigrationProvider,
+  db: Kysely<any>,
+) {
+  const migrator = new Migrator({
+    db,
+    provider,
+  })
+
+  return migrator.migrateToLatest()
+}
+
 async function migrateLatest(db: Kysely<any>) {
   const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -46,18 +59,6 @@ async function migrateLatest(db: Kysely<any>) {
   await db.destroy()
 }
 
-export async function migrateToLatest(
-  provider: MigrationProvider,
-  db: Kysely<any>,
-) {
-  const migrator = new Migrator({
-    db,
-    provider,
-  })
-
-  return migrator.migrateToLatest()
-}
-
 const pathToThisFile = path.resolve(fileURLToPath(import.meta.url))
 const pathPassedToNode = path.resolve(process.argv[1])
 const isFileRunDirectly = pathToThisFile.includes(pathPassedToNode)
@@ -65,5 +66,5 @@ const isFileRunDirectly = pathToThisFile.includes(pathPassedToNode)
 if (isFileRunDirectly) {
   const db = createDatabase(config.database)
   console.log('Start database migration')
-  await migrateLatest(db)
+  await migrateLatest(db.db)
 }

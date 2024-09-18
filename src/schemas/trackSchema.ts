@@ -1,4 +1,6 @@
 import { z } from 'zod'
+import { Selectable } from 'kysely'
+import { Tracks } from '../database/types.ts'
 
 export const trackSchema = z.object({
   id: z.string().min(1),
@@ -26,13 +28,26 @@ export const trackSchema = z.object({
 export type Track = {
   [K in keyof z.infer<typeof trackSchema>]: string
 }
-export const transformedTrackSchema = trackSchema.extend({
-  year: z.coerce.number(),
-  month: z.coerce.number(),
-  day: z.coerce.number(),
-  danceability_category: z.string(),
-})
+export const transformedTrackSchema = trackSchema
+  .omit({
+    release_date: true,
+    danceability: true,
+    artists: true,
+    id_artists: true,
+  })
+  .extend({
+    year: z.coerce.number(),
+    month: z.coerce.number(),
+    day: z.coerce.number(),
+    danceability: z.string(),
+  })
 
 export type TransformedTrack = {
   [K in keyof z.infer<typeof transformedTrackSchema>]: string
 }
+
+export const trackKeys = Object.keys(
+  transformedTrackSchema.shape,
+) as (keyof Tracks)[]
+
+export type TrackPublic = Pick<Selectable<Tracks>, (typeof trackKeys)[number]>

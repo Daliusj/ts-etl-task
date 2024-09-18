@@ -1,9 +1,9 @@
 import { writeFile } from 'fs/promises'
 import { createReadStream, createWriteStream } from 'node:fs'
 import * as fs from 'fs/promises'
+import { afterEach, it, expect } from 'vitest'
 import processCsvStreams from '../processCsvStreams.ts'
 import { deleteFiles, formCsvContent, processRow } from './testUtils.ts'
-import { afterEach, it, expect } from 'vitest'
 /* eslint-disable no-underscore-dangle */
 
 const sourcePath = `${__dirname}/test.csv`

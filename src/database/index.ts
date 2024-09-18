@@ -7,13 +7,15 @@ import {
 import pg from 'pg'
 import type { DB } from './types.ts'
 
-export function createDatabase(options: pg.PoolConfig): Kysely<DB> {
-  return new Kysely<DB>({
-    dialect: new PostgresDialect({
-      pool: new pg.Pool(options),
-    }),
+export function createDatabase(options: pg.PoolConfig) {
+  const pool = new pg.Pool(options)
+
+  const db = new Kysely<DB>({
+    dialect: new PostgresDialect({ pool }),
     plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
   })
+
+  return { db, pool }
 }
 
 export type Database = Kysely<DB>

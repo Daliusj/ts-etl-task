@@ -1,4 +1,6 @@
-import { Track, TransformedTrack } from '@/src/schemas/trackValidationSchema.ts'
+/* eslint-disable @typescript-eslint/naming-convention */
+
+import { Track, TransformedTrack } from '@/src/schemas/trackSchema.ts'
 
 export default function transformRow() {
   return (data: Track): TransformedTrack | null => {
@@ -7,7 +9,6 @@ export default function transformRow() {
     const month = `${releaseDate.getMonth() + 1}`
     const day = `${releaseDate.getDate()}`
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     let danceability_category: string
     if (Number(data.danceability) < 0.5) {
       danceability_category = 'Low'
@@ -17,12 +18,15 @@ export default function transformRow() {
       danceability_category = 'High'
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { release_date, artists, id_artists, danceability, ...rest } = data
+
     return {
-      ...data,
+      ...rest,
       year,
       month,
       day,
-      danceability_category,
+      danceability: danceability_category,
     }
   }
 }

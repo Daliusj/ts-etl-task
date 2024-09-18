@@ -2,18 +2,22 @@
 /* eslint-disable no-underscore-dangle */
 import { Readable, Transform, Writable } from 'node:stream'
 import { pipeline } from 'node:stream/promises'
+import parseCsvRow from './parseCsvRow.ts'
 
 export type ProcessRow<T, U extends object = {}> = (data: T) => T | U | null
 
 export const csvToObjects = <T>(header: string, rows: string[]): T[] => {
-  const headers = header.split(',').map((header) => header.trim())
-  const data = rows.map((row) => row.split(','))
-  return data.map((row) => {
-    const obj = {} as T
-    headers.forEach((headLabel, index) => {
-      ;(obj as Record<string, string>)[headLabel] = row[index]
-    })
-    return obj
+  const headers = parseCsvRow(header)
+  return rows.map((row) => {
+    const values = parseCsvRow(row)
+    return headers.reduce((obj, hdr, index) => {
+      const value = values[index]
+      const formattedValue = value === '[]' ? '{}' : value
+      return {
+        ...obj,
+        [hdr]: formattedValue,
+      }
+    }, {} as T)
   })
 }
 
@@ -24,11 +28,18 @@ const objectsToCsv = <T>(objects: T[], headersOn: boolean): string => {
   const headers = Object.keys(objects[0] as {})
   const headerRow = headers.join(',')
   const rows = objects.map((obj) =>
-    headers.map((header) => (obj as Record<string, string>)[header]).join(','),
+    headers
+      .map((header) => {
+        const value = (obj as Record<string, string>)[header]
+        if (/[,"\n]/.test(value)) {
+          return `"${value.replace(/"/g, '""')}"`
+        }
+        return value
+      })
+      .join(','),
   )
   return headersOn ? [headerRow, ...rows].join('\n') : rows.join('\n')
 }
-
 class CsvTransform<T> extends Transform {
   private remainder = ''
 
@@ -50,7 +61,6 @@ class CsvTransform<T> extends Transform {
     if (this.isFirstPush) {
       ;[this.header] = rows
       const dataRows = rows.slice(1)
-
       this.remainder = dataRows.pop() || ''
 
       const rowsObjects = csvToObjects<T>(this.header, dataRows)
@@ -66,6 +76,7 @@ class CsvTransform<T> extends Transform {
       }
     } else {
       this.remainder = rows.pop() || ''
+
       const rowsObjects = csvToObjects<T>(this.header, rows)
 
       const objectsProcessed: T[] = rowsObjects
@@ -74,7 +85,7 @@ class CsvTransform<T> extends Transform {
 
       const rowsProcessed = objectsToCsv<T>(objectsProcessed, this.isFirstPush)
       if (rowsProcessed) {
-        this.push(`${rowsProcessed}`)
+        this.push(`${rowsProcessed}\n`)
       }
     }
 

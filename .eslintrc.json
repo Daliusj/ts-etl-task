@@ -37,11 +37,25 @@
           "**/*.config.js"
         ]
       }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "always",
+        "js": "never"
+      }
     ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts"]
+      }
+    }
   },
   "env": {
     "node": true,
-    "es2021": true,
-    "vitest/globals": true
+    "es2021": true
   }
 }

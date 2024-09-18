@@ -1,18 +1,24 @@
 import { createReadStream, createWriteStream } from 'fs'
-import processCsvStreams from './processCsvStreams.ts'
 import moment from 'moment'
+import processCsvStreams from './processCsvStreams.ts'
 
-export default function createCsvProcessor<T>(
-  processRow: (...args: T[]) => T | null,
+export default function createCsvProcessor<T, U extends object>(
+  processRow: (...args: T[]) => U | null,
   outputFilePrefix: string,
 ) {
-  return async (inputDir: string, outputDir: string, fileName: string) => {
+  return async (
+    inputFilePath: string,
+    outputDir: string,
+    fileName: string,
+    outputName?: string,
+  ) => {
     try {
       const timestamp = moment().format('YYYYMMDD_HHmmss')
-      const outputFileName = `${outputFilePrefix}_${timestamp}_${fileName}`
+      const outputFileName = outputName
+        ? `${outputFilePrefix}_${timestamp}_${outputName}`
+        : `${outputFilePrefix}_${timestamp}_${fileName}`
       const outputFilePath = `${outputDir}${outputFileName}`
-
-      const inputStream = createReadStream(`${inputDir}${fileName}`)
+      const inputStream = createReadStream(inputFilePath)
       const outputStream = createWriteStream(outputFilePath)
 
       await processCsvStreams<T>(inputStream, outputStream, processRow)
@@ -27,7 +33,7 @@ export default function createCsvProcessor<T>(
       }
     } catch (error) {
       throw new Error(
-        `Csv proccessingerror : ${error instanceof Error ? error.message : 'Unknown error occurred'}`,
+        `Csv proccessing error : ${error instanceof Error ? error.message : 'Unknown error occurred'}`,
       )
     }
   }

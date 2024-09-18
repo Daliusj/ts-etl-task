@@ -26,11 +26,10 @@ describe('validateTracksCsv', () => {
     timestamp = moment().format('YYYYMMDD_HHmmss')
   })
 
-  afterEach(
-    async () =>
-      await deleteFiles(
-        `${outputDir}${config.validatedFilePrefix}_${timestamp}_${mockTracksName}`,
-      )(),
+  afterEach(async () =>
+    deleteFiles(
+      `${outputDir}${config.validatedFilePrefix}_${timestamp}_${mockTracksName}`,
+    )(),
   )
 
   it('should return validated tracks CSV', async () => {
@@ -64,11 +63,10 @@ describe('validateArtistsCsv', () => {
   beforeEach(() => {
     timestamp = moment().format('YYYYMMDD_HHmmss')
   })
-  afterEach(
-    async () =>
-      await deleteFiles(
-        `${outputDir}${config.validatedFilePrefix}_${timestamp}_${mockArtistsName}`,
-      )(),
+  afterEach(async () =>
+    deleteFiles(
+      `${outputDir}${config.validatedFilePrefix}_${timestamp}_${mockArtistsName}`,
+    )(),
   )
 
   it('should return validated artists CSV', async () => {
@@ -102,11 +100,10 @@ describe('transformTrackCsv', () => {
   beforeEach(() => {
     timestamp = moment().format('YYYYMMDD_HHmmss')
   })
-  afterEach(
-    async () =>
-      await deleteFiles(
-        `${outputDir}${config.transformedFilePrefix}_${timestamp}_${mockValidatedTracksName}`,
-      )(),
+  afterEach(async () =>
+    deleteFiles(
+      `${outputDir}${config.transformedFilePrefix}_${timestamp}_${mockValidatedTracksName}`,
+    )(),
   )
 
   it('should return transformed tracks CSV', async () => {

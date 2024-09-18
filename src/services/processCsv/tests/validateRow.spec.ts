@@ -1,6 +1,6 @@
+import { it, expect, describe } from 'vitest'
 import createRowValidator from '../validateRow.ts'
 import { Track, trackSchema } from '@/src/schemas/trackValidationSchema.ts'
-import { it, expect, describe } from 'vitest'
 
 const validate = createRowValidator<Track>(trackSchema)
 

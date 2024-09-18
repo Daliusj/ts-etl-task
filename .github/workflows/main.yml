@@ -1,0 +1,52 @@
+name: Test
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    env:
+      S3_BUCKET_NAME: spotify-etl-task
+      AWS_REGION=eu: central-1
+      DATABASE_URL: postgresql://etltask:etltask@localhost:5432/etltask-db
+      TEST_DATABASE: postgresql://etltask:etltask@localhost:5432/etltask-test-db
+      INPUT_FILE_DIR: /input
+      OUTPUT_FILE_DIR: /output/
+      TRACKS_FILENAME: tracks.csv
+      ARTISTS_FILENAME: artists.csv
+      VALIDATED_FILE_PREFIX: valid
+      TRANSFORMED_FILE_PREFIX: trf
+
+    services:
+      postgres:
+        image: postgres:16.1-alpine
+        env:
+          POSTGRES_USER: etltask
+          POSTGRES_PASSWORD: etltask
+          POSTGRES_DB: etltask-db
+        ports:
+          - 5432:5432
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.14.0'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Run database migrations
+        run: npm run migrate:latest
+
+      - name: Test server
+        run: npm run test

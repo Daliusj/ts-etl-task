@@ -19,7 +19,7 @@ const schema = z
 
     s3BucketName: z.string().min(1),
     region: z.string(),
-    inputFilePath: z.string().min(1),
+    inputFileDir: z.string().min(1),
     outputFileDir: z.string().min(1),
     tracksFileName: z.string().min(5),
     artistsFileName: z.string().min(5),
@@ -32,7 +32,7 @@ const config = schema.parse({
   env: env.NODE_ENV,
 
   database: {
-    connectionString: env.DATABASE,
+    connectionString: env.DATABASE_URL,
   },
 
   testDatabase: {
@@ -41,7 +41,7 @@ const config = schema.parse({
 
   s3BucketName: env.S3_BUCKET_NAME,
   region: env.AWS_REGION,
-  inputFilePath: env.INPUT_FILE_DIR,
+  inputFileDir: env.INPUT_FILE_DIR,
   outputFileDir: env.OUTPUT_FILE_DIR,
   tracksFileName: env.TRACKS_FILENAME,
   artistsFileName: env.ARTISTS_FILENAME,
