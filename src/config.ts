@@ -26,7 +26,7 @@ const schema = z
     artistsFileName: z.string().min(5),
     validatedFilePrefix: z.string().min(1),
     transformedFilePrefix: z.string().min(1),
-    exploadedFilePrefix: z.string().min(1),
+    explodedFilePrefix: z.string().min(1),
     filteredFilePrefix: z.string().min(1),
     deletStepResults: z.boolean(),
   })
@@ -51,7 +51,7 @@ const config = schema.parse({
   artistsFileName: env.ARTISTS_FILENAME,
   validatedFilePrefix: env.VALIDATED_FILE_PREFIX,
   transformedFilePrefix: env.TRANSFORMED_FILE_PREFIX,
-  exploadedFilePrefix: env.EXPLODED_FILE_PREFIX,
+  explodedFilePrefix: env.EXPLODED_FILE_PREFIX,
   filteredFilePrefix: env.FILTERED_FILE_PREFIX,
   deletStepResults: coerceBoolean(env.AUTO_DELETE_STEP_RESULTS),
 })

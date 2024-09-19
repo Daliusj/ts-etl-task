@@ -15,7 +15,7 @@ export default async function explodeJoinTableCsv(
   body: { message: string; filePath: string; fileName: string }
 }> {
   return new Promise((resolve) => {
-    const prefixedFileName = `${config.exploadedFilePrefix}_${fileName}`
+    const prefixedFileName = `${config.explodedFilePrefix}_${fileName}`
     const outputFilePath = join(outputFileDir, prefixedFileName)
     const outputStream = createWriteStream(outputFilePath)
     const inputStream = createReadStream(filePath)

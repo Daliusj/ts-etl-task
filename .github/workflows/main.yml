@@ -16,7 +16,7 @@ jobs:
       ARTISTS_FILENAME: artists.csv
       VALIDATED_FILE_PREFIX: valid
       TRANSFORMED_FILE_PREFIX: trf
-      EXPLOADED_FILE_PREFIX: xpl
+      EXPLODED_FILE_PREFIX: xpl
       FILTERED_FILE_PREFIX: fltr
       AUTO_DELETE_STEP_RESULTS: true
 

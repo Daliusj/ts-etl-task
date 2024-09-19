@@ -51,7 +51,7 @@ describe('createJoinTableCsv', () => {
 
 describe('ExplodeJoinTableCsv', () => {
   afterEach(async () =>
-    deleteFiles(`${outputDir}${config.exploadedFilePrefix}_${joinName}`)(),
+    deleteFiles(`${outputDir}${config.explodedFilePrefix}_${joinName}`)(),
   )
 
   it('should return exploded join table csv', async () => {
@@ -63,7 +63,7 @@ describe('ExplodeJoinTableCsv', () => {
 
     const fileContent = (
       await fsPromises.readFile(
-        `${outputDir}${config.exploadedFilePrefix}_${joinName}`,
+        `${outputDir}${config.explodedFilePrefix}_${joinName}`,
       )
     ).toString()
 
