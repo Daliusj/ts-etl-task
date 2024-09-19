@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { Selectable } from 'kysely'
 import { Artists } from '../database/types.ts'
 
 export const artistSchema = z
@@ -17,8 +16,3 @@ export type Artist = {
 }
 
 export const artistKeys = Object.keys(artistSchema.shape) as (keyof Artists)[]
-
-export type ArtistPublic = Pick<
-  Selectable<Artists>,
-  (typeof artistKeys)[number]
->

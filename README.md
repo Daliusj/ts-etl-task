@@ -38,7 +38,7 @@ It securely stores processed data in AWS S3 and loads it into a PostgreSQL datab
 Clone the repository and install dependencies:
 
 ```bash
-git https://github.com/Daliusj/ts-etl-task.git
+git clone https://github.com/Daliusj/ts-etl-task.git
 cd ts-etl-task/
 npm install
 
@@ -60,8 +60,9 @@ TRACKS_FILENAME=tracks.csv
 ARTISTS_FILENAME=artists.csv
 VALIDATED_FILE_PREFIX=valid
 TRANSFORMED_FILE_PREFIX=trf
-EXPLOADED_FILE_PREFIX=xpl
+EXPLODED_FILE_PREFIX=xpl
 FILTERED_FILE_PREFIX=fltr
+AUTO_DELETE_STEP_RESULTS=true
 
 ```
 
@@ -73,11 +74,13 @@ To manage database migrations run migration command:
 npm run migrate:latest
 ```
 
+the migrate:latest script will automatically create and apply the latest migrations to the database.
+SQL views will be created after running migration.
+
 ### Running ETL process
 
-Add raw tracks.csv and artists.csv files to input directory
-
-Run command:
+Add raw tracks.csv and artists.csv files to the /input directory.
+Initiates the ETL process, performing validation, transformation, and loading data into the database run command:
 
 ```bash
 npm run process
@@ -111,9 +114,9 @@ This project uses GitHub Actions to automate the Continuous Integration (CI) pro
 
 ## Project Structure
 
-- `/src`: Main source code directory.
+- `/src`: Contains the main application code, including ETL logic and data processing.
 - `/database`: Database configuration and migrations.
-- `/schemas`: Zod schemas and TypeScript types.
+- `/schemas`: Defines the Zod schemas used for data validation and type checking.
 - `/repository`: Database interaction logic.
 - `/services`: ETL logic.
 - `/utils`: Utility functions.

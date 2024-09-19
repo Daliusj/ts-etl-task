@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { Selectable } from 'kysely'
 import { Tracks } from '../database/types.ts'
 
 export const trackSchema = z.object({
@@ -49,5 +48,3 @@ export type TransformedTrack = {
 export const trackKeys = Object.keys(
   transformedTrackSchema.shape,
 ) as (keyof Tracks)[]
-
-export type TrackPublic = Pick<Selectable<Tracks>, (typeof trackKeys)[number]>

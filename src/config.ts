@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import 'dotenv/config'
 import { z } from 'zod'
 
@@ -27,6 +28,7 @@ const schema = z
     transformedFilePrefix: z.string().min(1),
     exploadedFilePrefix: z.string().min(1),
     filteredFilePrefix: z.string().min(1),
+    deletStepResults: z.boolean(),
   })
   .readonly()
 
@@ -49,8 +51,17 @@ const config = schema.parse({
   artistsFileName: env.ARTISTS_FILENAME,
   validatedFilePrefix: env.VALIDATED_FILE_PREFIX,
   transformedFilePrefix: env.TRANSFORMED_FILE_PREFIX,
-  exploadedFilePrefix: env.EXPLOADED_FILE_PREFIX,
+  exploadedFilePrefix: env.EXPLODED_FILE_PREFIX,
   filteredFilePrefix: env.FILTERED_FILE_PREFIX,
+  deletStepResults: coerceBoolean(env.AUTO_DELETE_STEP_RESULTS),
 })
 
 export default config
+
+// utility functions
+function coerceBoolean(value: unknown) {
+  if (typeof value === 'string') {
+    return value === 'true' || value === '1'
+  }
+  return false
+}

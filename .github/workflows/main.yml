@@ -18,6 +18,7 @@ jobs:
       TRANSFORMED_FILE_PREFIX: trf
       EXPLOADED_FILE_PREFIX: xpl
       FILTERED_FILE_PREFIX: fltr
+      AUTO_DELETE_STEP_RESULTS: true
 
     services:
       postgres:
